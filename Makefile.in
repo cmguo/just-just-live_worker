@@ -71,5 +71,3 @@ PROJECT_DEPENDS			:= \
 PROJECT_DEPEND_LIBRARYS		:= $(PROJECT_DEPEND_LIBRARYS) pthread rt dl
 
 #PROJECT_VERSION_SCRIPT		:= LiveWorker.map
-
-include $(RELETIVE_DIR)/../BootStrap.mk
