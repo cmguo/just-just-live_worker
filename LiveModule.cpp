@@ -72,7 +72,7 @@ namespace ppbox
         error_code LiveModule::startup()
         {
             error_code ec = 
-                live_->load(live::name_string());
+                live_->load(::live::name_string());
             if (!ec && !live_->startup())
                 ec = logic_error::failed_some;
             if (!ec) {
