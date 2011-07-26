@@ -58,13 +58,7 @@ PROJECT_LINK_FLAGS		:=
 
 PROJECT_DEPENDS			:= \
 				/ppbox/common \
-				/base/util \
-				/base/framework \
-				/base/boost/thread \
-				/base/boost/system \
-				/base/boost/filesystem \
-				/base/boost/date_time \
-				/base/boost/regex \
+				$(PROJECT_DEPENDS) \
 
 ## 该项目特定的引用库
 
