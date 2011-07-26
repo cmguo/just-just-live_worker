@@ -1,6 +1,6 @@
 ## 该项目默认的配置类型
 
-LOCAL_CONFIG			:= $(PROJECT_CONFI) debug multi --enable-build_version --enable-publish
+LOCAL_CONFIG			:= $(PROJECT_CONFI) debug multi --enable-build_version --publish=private:public
 
 ## 项目类型
 
