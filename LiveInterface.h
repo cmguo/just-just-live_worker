@@ -89,13 +89,13 @@ namespace ppbox
             }
 
         public:
-            bool startup()
+            bool startup(int type)
             {
                 if (NULL == m_interface.startup) {
                     assert(false);
                     return false;
                 }
-                return m_interface.startup(0);
+                return m_interface.startup(type);
             }
 
             void cleanup()

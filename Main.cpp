@@ -2,6 +2,7 @@
 
 #include "ppbox/live_worker/Common.h"
 #include "ppbox/live_worker/LiveProxy.h"
+#include "ppbox/live_worker/SSNManageModule.h"
 #include "ppbox/live_worker/Version.h"
 
 //#include <ppbox/common/ConfigMgr.h>
@@ -13,6 +14,8 @@
 #include <boost/bind.hpp>
 
 FRAMEWORK_LOGGER_DECLARE_MODULE("LiveWorker");
+
+#ifndef _LIB
 
 int main(int argc, char * argv[])
 {
@@ -42,6 +45,16 @@ int main(int argc, char * argv[])
     common.set_version(ppbox::live_worker::version());
 
     util::daemon::use_module<ppbox::live_worker::LiveProxy>(my_daemon);
+
+    // SNManager module
+    std::string worker_type("0");
+    my_daemon.config().register_module("LiveModule")
+        << CONFIG_PARAM_NAME_NOACC("peer_type", worker_type);
+    if (atoi(worker_type.c_str()) != 0)
+    {
+        util::daemon::use_module<ppbox::live_worker::SSNManageModule>(my_daemon);
+    }
+
     //util::daemon::use_module<ppbox::common::ConfigMgr>(my_daemon);
     util::daemon::use_module<ppbox::common::Debuger>(my_daemon);
 
@@ -49,3 +62,5 @@ int main(int argc, char * argv[])
 
     return 0;
 }
+
+#endif

@@ -3,8 +3,7 @@
 #ifndef _PPBOX_LIVE_WORKER_LIVE_MODULE_H_
 #define _PPBOX_LIVE_WORKER_LIVE_MODULE_H_
 
-#include <framework/timer/TimeTraits.h>
-
+#include <boost/asio/deadline_timer.hpp>
 #include <boost/function.hpp>
 
 namespace ppbox
@@ -14,25 +13,14 @@ namespace ppbox
 
         class LiveInterface;
 
-        struct LiveChannel;
-
-        struct ChannelHandle
-        {
-            ChannelHandle(
-                LiveChannel * channel = NULL)
-                : channel(channel)
-                , cancel_token(0)
-            {
-            }
-
-            LiveChannel * channel;
-            size_t cancel_token;
-        };
-
         class LiveModule
             : public util::daemon::ModuleBase<LiveModule>
         {
         public:
+            struct Channel;
+
+            typedef Channel * ChannelHandle;
+
             typedef boost::function<void (
                 boost::system::error_code const &, 
                 std::string const &)> call_back_func;
@@ -49,31 +37,31 @@ namespace ppbox
             virtual void shutdown();
 
         public:
-            void set_max_parallel(
-                size_t max_parallel);
-
             ChannelHandle start_channel(
-                std::string const & url, 
+                std::string const & url,
+                boost::uint16_t tcp_port, 
+                boost::uint16_t udp_port, 
                 call_back_func const & call_back);
 
             void stop_channel(
-                ChannelHandle & handle);
+                ChannelHandle handle);
+
+            size_t check_channels(
+                 std::vector<ChannelHandle> & failed)
+            {
+                 return 0;
+            }
+
+            void dump_channels();
 
         private:
-            void handle_timer(
-                boost::system::error_code const & ec);
-
             void handle_call_back(
-                LiveChannel * channel, 
+                Channel * channel, 
                 boost::system::error_code const & ec);
 
             void handle_call_back_innner(
-                LiveChannel * channel, 
+                Channel * channel, 
                 boost::system::error_code const & ec);
-
-            void check_parallel();
-
-            void dump_channels();
 
         private:
             static int call_back_hook(
@@ -83,14 +71,16 @@ namespace ppbox
                 unsigned int lParam);
 
         private:
-            static boost::uint16_t const udp_port = 3000;
-            static boost::uint16_t const tcp_port = 4000;
+            enum PeerTypeEnum
+            {
+                t_client, 
+                t_sn,
+                t_ssn,
+            };
 
-        private:
+            int peer_type_;
             LiveInterface * live_;
-            std::vector<LiveChannel *> channels_;
-            size_t max_parallel_;
-            clock_timer timer_;
+            std::vector<Channel *> channels_;
         };
 
     } // namespace live_worker

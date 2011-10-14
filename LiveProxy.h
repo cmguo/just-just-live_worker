@@ -10,7 +10,7 @@ namespace ppbox
     namespace live_worker
     {
 
-        class LiveModule;
+        class LiveManager;
         class ProxyManager;
 
         class LiveProxy
@@ -28,7 +28,7 @@ namespace ppbox
             virtual void shutdown();
 
         private:
-            LiveModule & module_;
+            LiveManager & module_;
             ProxyManager * mgr_;
         };
 

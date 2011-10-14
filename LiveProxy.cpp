@@ -2,7 +2,7 @@
 
 #include "ppbox/live_worker/Common.h"
 #include "ppbox/live_worker/LiveProxy.h"
-#include "ppbox/live_worker/LiveModule.h"
+#include "ppbox/live_worker/LiveManager.h"
 
 #include <util/protocol/http/HttpProxyManager.h>
 #include <util/protocol/http/HttpProxy.h>
@@ -12,6 +12,8 @@
 #include <framework/network/NetName.h>
 #include <framework/logger/LoggerStreamRecord.h>
 #include <framework/string/Url.h>
+#include <framework/string/Parse.h>
+
 using namespace framework::logger;
 
 using namespace boost::system;
@@ -32,7 +34,7 @@ namespace ppbox
             ProxyManager(
                 boost::asio::io_service & io_svc, 
                 framework::network::NetName const & addr, 
-                LiveModule & module)
+                LiveManager & module)
                 : util::protocol::HttpProxyManager<Proxy, ProxyManager>(io_svc, addr)
                 , module_(module)
             {
@@ -53,7 +55,7 @@ namespace ppbox
             }
 
         public:
-            LiveModule & module()
+            LiveManager & module()
             {
                 return module_;
             }
@@ -61,7 +63,7 @@ namespace ppbox
             void stop();
 
         private:
-            LiveModule & module_;
+            LiveManager & module_;
             std::vector<Proxy *> proxys_;
         };
 
@@ -85,7 +87,7 @@ namespace ppbox
 
             virtual void on_receive_request_head(
                 util::protocol::HttpRequestHead & request_head, 
-                prepare_response_type const & resp)
+                response_type const & resp)
             {
                 request_head.get_content(std::cout);
                 std::string url = request_head.path;
@@ -102,6 +104,7 @@ namespace ppbox
             virtual void on_broken_pipe()
             {
                 mgr_.module().stop_channel(channel_);
+                HttpProxy::on_broken_pipe();
             }
 
             virtual void on_error(
@@ -118,7 +121,7 @@ namespace ppbox
             }
 
             void on_channel_ready(
-                prepare_response_type const & resp, 
+                response_type const & resp, 
                 boost::system::error_code const & ec, 
                 std::string const & url_str)
             {
@@ -130,7 +133,7 @@ namespace ppbox
 
         private:
             ProxyManager & mgr_;
-            ChannelHandle channel_;
+            LiveManager::ChannelHandle channel_;
         };
 
         void ProxyManager::stop()
@@ -145,10 +148,19 @@ namespace ppbox
         LiveProxy::LiveProxy(
             util::daemon::Daemon & daemon)
             : ppbox::common::CommonModuleBase<LiveProxy>(daemon, "LiveProxy")
-            , module_(util::daemon::use_module<LiveModule>(daemon))
+            , module_(util::daemon::use_module<LiveManager>(daemon))
         {
-            framework::network::NetName addr("0.0.0.0", 9001);
-            mgr_ = new ProxyManager(io_svc(), addr, module_);
+            std::string strPort("9001");
+            int iPort = 0;
+            daemon.config().register_module("LiveProxy")
+                << CONFIG_PARAM_NAME_NOACC("service_port", strPort);
+
+            LOG_S(Logger::kLevelDebug, "[service_port] " << strPort.c_str());
+
+            framework::string::parse2(strPort,iPort);
+
+            framework::network::NetName addr("0.0.0.0", iPort);
+            mgr_ = new ProxyManager(io_svc(), addr, module_); 
         }
 
         LiveProxy::~LiveProxy()
