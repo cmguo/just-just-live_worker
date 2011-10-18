@@ -1,3 +1,7 @@
+// SSNManageModule.cpp
+
+#ifdef PPBOX_LIVE_WORKER_WITH_SSN_MANAGER
+
 #include "ppbox/live_worker/Common.h"
 #include "ppbox/live_worker/Define.h"
 #include "ppbox/live_worker/SSNManageModule.h"
@@ -150,4 +154,6 @@ void SSNManageModule::on_fetch_channels( boost::system::error_code const & ec, b
     snc_client_ptr->close(ec1);
 }
 END_NAME_SPACE
+
+#endif
 
