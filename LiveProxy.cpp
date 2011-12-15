@@ -150,16 +150,11 @@ namespace ppbox
             : ppbox::common::CommonModuleBase<LiveProxy>(daemon, "LiveProxy")
             , module_(util::daemon::use_module<LiveManager>(daemon))
         {
-            std::string strPort("9001");
-            int iPort = 0;
+            framework::network::NetName addr("0.0.0.0:9001");
+
             daemon.config().register_module("LiveProxy")
-                << CONFIG_PARAM_NAME_NOACC("service_port", strPort);
+                << CONFIG_PARAM_NAME_NOACC("addr", addr);
 
-            LOG_S(Logger::kLevelDebug, "[service_port] " << strPort.c_str());
-
-            framework::string::parse2(strPort,iPort);
-
-            framework::network::NetName addr("0.0.0.0", iPort);
             mgr_ = new ProxyManager(io_svc(), addr, module_); 
         }
 

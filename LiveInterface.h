@@ -30,6 +30,18 @@ namespace ppbox
             bool load(
                 framework::library::Library const & dll)
             {
+#ifdef PPBOX_STATIC_BIND_LIVE_LIB
+                this->startup = LiveStartup;
+                this->cleanup = LiveCleanup;
+                this->start_channel = LiveStartChannel;
+                this->stop_channel = LiveStopChannel;
+                this->get_status = LiveGetChannelStatus;
+                this->get_parameter = LiveGetChannelParameter;
+                this->set_parameter = LiveSetChannelParameter;
+                this->set_player_status = LiveSetChannelPlayerStatus;
+                this->set_callback = LiveSetChannelCallback;
+                this->set_upnp = LiveSetChannelUPNP;
+#else
                 retrieve_func(this->startup, "LiveStartup", dll);
                 retrieve_func(this->cleanup, "LiveCleanup", dll);
                 retrieve_func(this->start_channel, "LiveStartChannel", dll);
@@ -40,6 +52,7 @@ namespace ppbox
                 retrieve_func(this->set_player_status, "LiveSetChannelPlayerStatus", dll);
                 retrieve_func(this->set_callback, "LiveSetChannelCallback", dll);
                 retrieve_func(this->set_upnp, "LiveSetChannelUPNP", dll);
+#endif
                 return is_valid();
             }
 
@@ -79,8 +92,12 @@ namespace ppbox
             boost::system::error_code load(
                 std::string const & lib_path)
             {
+#ifdef PPBOX_STATIC_BIND_LIVE_LIB
+                boost::system::error_code ec;
+#else
                 boost::system::error_code ec = 
                     m_dll.open(lib_path);
+#endif
                 if (!ec) {
                     m_interface.load(m_dll);
                     assert(m_interface.is_valid());
