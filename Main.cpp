@@ -9,6 +9,7 @@
 
 //#include <ppbox/common/ConfigMgr.h>
 #include <ppbox/common/Debuger.h>
+#include <ppbox/common/PortManager.h>
 
 #include <framework/process/Process.h>
 #include <framework/process/SignalHandler.h>
@@ -58,6 +59,7 @@ int main(int argc, char * argv[])
 
     //util::daemon::use_module<ppbox::common::ConfigMgr>(my_daemon);
     util::daemon::use_module<ppbox::common::Debuger>(my_daemon);
+    util::daemon::use_module<ppbox::common::PortManager>(my_daemon);
 
     my_daemon.start(framework::this_process::notify_wait);
 

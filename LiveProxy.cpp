@@ -9,7 +9,6 @@
 #include <util/protocol/http/HttpRequest.h>
 #include <util/protocol/http/HttpResponse.h>
 
-#include <framework/network/NetName.h>
 #include <framework/logger/LoggerStreamRecord.h>
 #include <framework/string/Url.h>
 #include <framework/string/Parse.h>
@@ -33,9 +32,8 @@ namespace ppbox
         public:
             ProxyManager(
                 boost::asio::io_service & io_svc, 
-                framework::network::NetName const & addr, 
                 LiveManager & module)
-                : util::protocol::HttpProxyManager<Proxy, ProxyManager>(io_svc, addr)
+                : util::protocol::HttpProxyManager<Proxy, ProxyManager>(io_svc)
                 , module_(module)
             {
             }
@@ -149,13 +147,13 @@ namespace ppbox
             util::daemon::Daemon & daemon)
             : ppbox::common::CommonModuleBase<LiveProxy>(daemon, "LiveProxy")
             , module_(util::daemon::use_module<LiveManager>(daemon))
+            , portMgr_(util::daemon::use_module<ppbox::common::PortManager>(daemon))
+            , addr_("0.0.0.0:9001+")
         {
-            framework::network::NetName addr("0.0.0.0:9001");
-
             daemon.config().register_module("LiveProxy")
-                << CONFIG_PARAM_NAME_NOACC("addr", addr);
+                << CONFIG_PARAM_NAME_RDWR("addr", addr_);
 
-            mgr_ = new ProxyManager(io_svc(), addr, module_); 
+            mgr_ = new ProxyManager(io_svc(),module_);
         }
 
         LiveProxy::~LiveProxy()
@@ -165,8 +163,11 @@ namespace ppbox
 
         error_code LiveProxy::startup()
         {
-            mgr_->start();
-            return error_code();
+            error_code ec;
+            mgr_->start(addr_,ec);
+            if(!ec)
+                portMgr_.set_port(ppbox::common::live,addr_.port());
+            return ec;
         }
 
         void LiveProxy::shutdown()

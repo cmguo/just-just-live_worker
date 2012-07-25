@@ -3,6 +3,10 @@
 #ifndef _PPBOX_LIVE_WORKER_LIVE_PROXY_H_
 #define _PPBOX_LIVE_WORKER_LIVE_PROXY_H_
 
+#include <ppbox/common/PortManager.h>
+
+#include <framework/network/NetName.h>
+
 #include <boost/function.hpp>
 
 namespace ppbox
@@ -29,7 +33,9 @@ namespace ppbox
 
         private:
             LiveManager & module_;
+            ppbox::common::PortManager& portMgr_;
             ProxyManager * mgr_;
+            framework::network::NetName addr_;
         };
 
     } // namespace live_worker
