@@ -1,6 +1,6 @@
 {
         global: 
-		main;
+        main;
 
-	local: *;
+    local: *;
 };

@@ -66,11 +66,11 @@ namespace ppbox
                 local_socket_ = new boost::asio::local::stream_protocol::socket(io_svc);
                 error_code ec;
                 if (parent) {
-                      boost::asio::detail::socket_ops::close(native_sockets_[1], ec);
-                      local_socket_->assign(boost::asio::local::stream_protocol(), native_sockets_[0]);
+                    boost::asio::detail::socket_ops::close(native_sockets_[1], ec);
+                    local_socket_->assign(boost::asio::local::stream_protocol(), native_sockets_[0]);
                 } else {
-                      boost::asio::detail::socket_ops::close(native_sockets_[0], ec);
-                      local_socket_->assign(boost::asio::local::stream_protocol(), native_sockets_[1]);
+                    boost::asio::detail::socket_ops::close(native_sockets_[0], ec);
+                    local_socket_->assign(boost::asio::local::stream_protocol(), native_sockets_[1]);
                 }
             }
 
@@ -198,12 +198,12 @@ namespace ppbox
             LOG_S(Logger::kLevelEvent, "[start_channel] channel " << (void *)channel);
             pid_t pid = ::fork();
             if (pid > 0) {
-	        channel->after_fork(true, io_svc());
+                channel->after_fork(true, io_svc());
                 channel->call_back = call_back;
                 channel->pid = pid;
                 channel->wait_start_channel(
                     boost::bind(&LiveModuleProxy::handle_start_channel, this, 
-                        channel, _1, _2));
+                    channel, _1, _2));
                 return channel;
             } else if (pid == 0) {
                 util::daemon::Daemon daemon;
@@ -222,7 +222,7 @@ namespace ppbox
                     } else {
                         channel->wait_stop_channel(
                             boost::bind(&LiveModuleProxy::handle_stop_channel, this, 
-                                boost::ref(daemon), channel, _1, _2));
+                            boost::ref(daemon), channel, _1, _2));
                         daemon.run();
                     }
                 }
@@ -261,18 +261,18 @@ namespace ppbox
         };
 
         size_t LiveModuleProxy::check_channels(
-             std::vector<ChannelHandle> & failed)
+            std::vector<ChannelHandle> & failed)
         {
-             pid_t pid = ::waitpid(-1, NULL, WNOHANG);
-             while (pid > 0) {
-                 std::vector<Channel *>::const_iterator iter = 
+            pid_t pid = ::waitpid(-1, NULL, WNOHANG);
+            while (pid > 0) {
+                std::vector<Channel *>::const_iterator iter = 
                     std::find_if(channels_.begin(), channels_.end(), find_channel_by_pid(pid));  
-                 if (iter != channels_.end()) {
-                     failed.push_back(*iter);
-                 }
-                 pid = ::waitpid(-1, NULL, WNOHANG);
-             }
-             return failed.size();
+                if (iter != channels_.end()) {
+                    failed.push_back(*iter);
+                }
+                pid = ::waitpid(-1, NULL, WNOHANG);
+            }
+            return failed.size();
         }
 
         void LiveModuleProxy::dump_channels()

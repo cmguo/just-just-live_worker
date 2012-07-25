@@ -182,7 +182,7 @@ namespace ppbox
                         LOG_S(Logger::kLevelEvent, "[re_start_channel] old channel: " << (void *)channel);
                         //删除旧的频道
                         stop_channel(channels_[i]);
-                        
+
                         //清除被清完的频道
                         channels_.erase(
                             std::remove(channels_.begin(), channels_.end(), (Channel *)0), channels_.end());
@@ -190,17 +190,17 @@ namespace ppbox
                         //重新打开该频道
                         return start_channel(url,tcp_port,udp_port,call_back);       
                     }
-   
+
                     LOG_S(Logger::kLevelEvent, "[start_channel] old channel: " << (void *)channel);
-                    
+
                     /*
                     if ((channel->status == Channel::working  || channel->status == Channel::started) && (0 == channel->nref))
                     {
-                        LOG_S(Logger::kLevelEvent, "[change palce to front] status: " << (int)channel->status);
-                        channels_.erase(
-                            std::remove(channels_.begin(), channels_.end(),channel), channels_.end());
+                    LOG_S(Logger::kLevelEvent, "[change palce to front] status: " << (int)channel->status);
+                    channels_.erase(
+                    std::remove(channels_.begin(), channels_.end(),channel), channels_.end());
 
-                        channels_.insert(channels_.begin(), channel);
+                    channels_.insert(channels_.begin(), channel);
                     }*/
                     break;
                 }
@@ -222,7 +222,7 @@ namespace ppbox
                 }
                 LOG_S(Logger::kLevelEvent, "[start_channel] new channel: " << (void *)channel);
                 /*std::vector<Channel *>::iterator iter = 
-                    std::find_if(channels_.begin(), channels_.end(), find_channel_not_active());
+                std::find_if(channels_.begin(), channels_.end(), find_channel_not_active());
                 channels_.insert(iter, channel);*/
                 channels_.push_back(channel);
             }
@@ -259,7 +259,7 @@ namespace ppbox
                 if (!find_channel_stopped()(channel)) 
                 {
                     channel->expire = 10;
-		            channels_.erase(std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
+                    channels_.erase(std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
                     channels_.insert(channels_.begin(),channel);  //移到最前面
                 }
                 else
@@ -273,7 +273,7 @@ namespace ppbox
 
         void LiveManager::check_parallel()
         {
-            
+
             int iUserSize = 0;
             iUserSize = count_if(channels_.begin(),channels_.end(),find_channel_working());
             LOG_S(Logger::kLevelEvent, "[check_parallel] max_parallel_: " << max_parallel_ << ", iUserSize: " << iUserSize);
@@ -300,7 +300,7 @@ namespace ppbox
                     }
                 }
             }
-            
+
             channels_.erase(
                 std::remove(channels_.begin(), channels_.end(), (Channel *)0), channels_.end());
         }
@@ -334,7 +334,7 @@ namespace ppbox
                     stop_channel(*failed_beg);
                 }
             }
-           
+
             for (size_t i = 0; i < channels_.size(); ++i) {
                 if (channels_[i] && channels_[i]->nref == 0 && --channels_[i]->expire == 0) {
                     stop_channel(channels_[i]);
@@ -386,10 +386,10 @@ namespace ppbox
         void LiveManager::stop_channel(
             Channel *& channel)
         {
-	        if(NULL == channel)
-	        {
-		        LOG_S(Logger::kLevelAlarm, "[stop_channel NULL == channel]");
-		        return;	
+            if(NULL == channel)
+            {
+                LOG_S(Logger::kLevelAlarm, "[stop_channel NULL == channel]");
+                return;    
             }
             if (channel->status == Channel::started) {
                 channel->status = Channel::cancel;
@@ -410,7 +410,7 @@ namespace ppbox
             if (channel->nref == 0) 
             { 
                 LOG_S(Logger::kLevelAlarm, "[kill_chancel] deleted channel " << (void *)channel<<" channel count:"<<channels_.size());
-		        delete channel;
+                delete channel;
                 channel = NULL;
             }
         }
