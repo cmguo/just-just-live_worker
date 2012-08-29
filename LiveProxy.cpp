@@ -9,7 +9,7 @@
 #include <util/protocol/http/HttpRequest.h>
 #include <util/protocol/http/HttpResponse.h>
 
-#include <framework/logger/LoggerStreamRecord.h>
+#include <framework/logger/StreamRecord.h>
 #include <framework/string/Url.h>
 #include <framework/string/Parse.h>
 
@@ -108,7 +108,7 @@ namespace ppbox
             virtual void on_error(
                 boost::system::error_code const & ec)
             {
-                LOG_S(Logger::kLevelAlarm, "on_error " << ec.message());
+                LOG_WARN("on_error " << ec.message());
                 if (ec == boost::asio::error::address_in_use)
                     mgr_.module().get_daemon().post_stop();
             }

@@ -13,8 +13,7 @@ using namespace util::protocol;
 #include <framework/string/Format.h>
 #include <framework/string/Slice.h>
 #include <framework/string/Parse.h>
-#include <framework/logger/LoggerFormatRecord.h>
-#include <framework/logger/LoggerStreamRecord.h>
+#include <framework/logger/StreamRecord.h>
 #include <framework/logger/LoggerSection.h>
 using namespace framework::string;
 using namespace framework::logger;
@@ -103,7 +102,7 @@ namespace ppbox
             daemon.config().register_module("LiveProxy")
                 << CONFIG_PARAM_NAME_NOACC("max_parallel", strParallel);
 
-            LOG_S(Logger::kLevelDebug, "[max_parallel] " << strParallel.c_str());
+            LOG_DEBUG("[max_parallel] " << strParallel.c_str());
 
             framework::string::parse2(strParallel,iParallel);
 
@@ -166,7 +165,7 @@ namespace ppbox
                 return ChannelHandle(NULL);
             }
 
-            LOG_S(Logger::kLevelEvent, "[start_channel] rid: " << rid);
+            LOG_INFO("[start_channel] rid: " << rid);
             Channel * channel = NULL;
             for (size_t i = 0; i < channels_.size(); ++i) 
             {
@@ -179,7 +178,7 @@ namespace ppbox
                     //端口的比对
                     if(tcp_port != 0 && udp_port != 0  && (tcp_port != channel->tcp_port || udp_port != channel->udp_port))
                     {
-                        LOG_S(Logger::kLevelEvent, "[re_start_channel] old channel: " << (void *)channel);
+                        LOG_INFO("[re_start_channel] old channel: " << (void *)channel);
                         //删除旧的频道
                         stop_channel(channels_[i]);
 
@@ -191,12 +190,12 @@ namespace ppbox
                         return start_channel(url,tcp_port,udp_port,call_back);       
                     }
 
-                    LOG_S(Logger::kLevelEvent, "[start_channel] old channel: " << (void *)channel);
+                    LOG_INFO("[start_channel] old channel: " << (void *)channel);
 
                     /*
                     if ((channel->status == Channel::working  || channel->status == Channel::started) && (0 == channel->nref))
                     {
-                    LOG_S(Logger::kLevelEvent, "[change palce to front] status: " << (int)channel->status);
+                    LOG_INFO("[change palce to front] status: " << (int)channel->status);
                     channels_.erase(
                     std::remove(channels_.begin(), channels_.end(),channel), channels_.end());
 
@@ -220,7 +219,7 @@ namespace ppbox
                     delete channel;
                     return ChannelHandle(NULL);
                 }
-                LOG_S(Logger::kLevelEvent, "[start_channel] new channel: " << (void *)channel);
+                LOG_INFO("[start_channel] new channel: " << (void *)channel);
                 /*std::vector<Channel *>::iterator iter = 
                 std::find_if(channels_.begin(), channels_.end(), find_channel_not_active());
                 channels_.insert(iter, channel);*/
@@ -246,7 +245,7 @@ namespace ppbox
             handle.channel = NULL;
             if (channel == NULL)
                 return;
-            LOG_S(Logger::kLevelEvent, "[stop_channel] rid: " << channel->rid << ", channel: " << (void *)channel);
+            LOG_INFO("[stop_channel] rid: " << channel->rid << ", channel: " << (void *)channel);
             if (handle.cancel_token && handle.cancel_token < channel->call_backs.size() + 1) {
                 call_back_func call_back;
                 call_back.swap(channel->call_backs[handle.cancel_token - 1]);
@@ -276,7 +275,7 @@ namespace ppbox
 
             int iUserSize = 0;
             iUserSize = count_if(channels_.begin(),channels_.end(),find_channel_working());
-            LOG_S(Logger::kLevelEvent, "[check_parallel] max_parallel_: " << max_parallel_ << ", iUserSize: " << iUserSize);
+            LOG_INFO("[check_parallel] max_parallel_: " << max_parallel_ << ", iUserSize: " << iUserSize);
 
             int iLeftSize = ((max_parallel_ - iUserSize)<0)?0:(max_parallel_ - iUserSize); 
             int iFindCount = 0;
@@ -330,7 +329,7 @@ namespace ppbox
                 std::vector<Channel *>::iterator failed_beg = 
                     std::stable_partition(channels_.begin(), working_end, finder);
                 for (; failed_beg != working_end; ++failed_beg) {
-                    LOG_S(Logger::kLevelEvent, "[handle_timer] channel failed: " << (void *)*failed_beg);
+                    LOG_INFO("[handle_timer] channel failed: " << (void *)*failed_beg);
                     stop_channel(*failed_beg);
                 }
             }
@@ -353,7 +352,7 @@ namespace ppbox
         {
             std::vector<Channel *>::iterator iter = std::find(channels_.begin(), channels_.end(), channel);
             if ( iter == channels_.end()) {
-                LOG_S(Logger::kLevelAlarm, "[handle_call_back_innner] already deleted channel " << (void *)channel);
+                LOG_WARN("[handle_call_back_innner] already deleted channel " << (void *)channel);
                 return;
             }
             if (channel->status == Channel::cancel) {
@@ -388,7 +387,7 @@ namespace ppbox
         {
             if(NULL == channel)
             {
-                LOG_S(Logger::kLevelAlarm, "[stop_channel NULL == channel]");
+                LOG_WARN("[stop_channel NULL == channel]");
                 return;    
             }
             if (channel->status == Channel::started) {
@@ -406,10 +405,10 @@ namespace ppbox
             } else if (channel->status == Channel::cancel) {
                 return;
             }
-            LOG_S(Logger::kLevelAlarm, "[kill_chancel] channel" << (void *)channel<<" status:"<<channel->status<<" nref:"<<channel->nref);
+            LOG_WARN("[kill_chancel] channel" << (void *)channel<<" status:"<<channel->status<<" nref:"<<channel->nref);
             if (channel->nref == 0) 
             { 
-                LOG_S(Logger::kLevelAlarm, "[kill_chancel] deleted channel " << (void *)channel<<" channel count:"<<channels_.size());
+                LOG_WARN("[kill_chancel] deleted channel " << (void *)channel<<" channel count:"<<channels_.size());
                 delete channel;
                 channel = NULL;
             }

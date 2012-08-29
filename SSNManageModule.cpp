@@ -42,9 +42,9 @@ SSNManageModule::SSNManageModule(util::daemon::Daemon & daemon)
     daemon.config().register_module("LiveModule")    
         << CONFIG_PARAM_NAME_NOACC("peer_type", sn_type);
 
-    LOG_S(Logger::kLevelDebug, "[service_ip] " << service_ip);
-    LOG_S(Logger::kLevelDebug, "[snc_url] " << snc_url_);
-    LOG_S(Logger::kLevelDebug, "[sn_type] " << sn_type);
+    LOG_DEBUG("[service_ip] " << service_ip);
+    LOG_DEBUG("[snc_url] " << snc_url_);
+    LOG_DEBUG("[sn_type] " << sn_type);
 
     int iType = atoi(sn_type.c_str());
     if (iType < 1 || iType > 2)
@@ -56,7 +56,7 @@ SSNManageModule::SSNManageModule(util::daemon::Daemon & daemon)
     snc_url_ += "&type=" + sn_type;
 
 
-    LOG_S(Logger::kLevelDebug, "[snc_url_] " << snc_url_.c_str());
+    LOG_DEBUG("[snc_url_] " << snc_url_.c_str());
         
 }
 SSNManageModule::~SSNManageModule()
@@ -106,7 +106,7 @@ void SSNManageModule::handle_timer( boost::system::error_code const & ec )
 
 void SSNManageModule::on_channel_ready(boost::system::error_code const & ec,std::string const & url_str)
 {
-    LOG_S(Logger::kLevelEvent, "SSNManageModule::on_channel_ready");
+    LOG_INFO("SSNManageModule::on_channel_ready");
 }
 
 
@@ -121,7 +121,7 @@ void SSNManageModule::on_fetch_channels( boost::system::error_code const & ec, b
         std::vector<channel> channels;
         ia>> SERIALIZATION_NVP(channels);
 
-        LOG_S(Logger::kLevelEvent, "on_fetch_channels,channel size :"<<channels.size());
+        LOG_INFO("on_fetch_channels,channel size :"<<channels.size());
 
         for(std::vector<channel>::iterator iter = channels.begin(); 
                 iter != channels.end(); 
@@ -135,14 +135,14 @@ void SSNManageModule::on_fetch_channels( boost::system::error_code const & ec, b
             }
             else
             {
-                LOG_S(Logger::kLevelEvent, "start_channel failed, channel id:"<<(*iter).id.c_str());
+                LOG_INFO("start_channel failed, channel id:"<<(*iter).id.c_str());
             }
         }
  
     }
     else
     {
-        LOG_S(Logger::kLevelEvent, "SSNManageModule::on_fetch_channels failed ");
+        LOG_INFO("SSNManageModule::on_fetch_channels failed ");
     }
 
     //Çå³ý¾ÉÆµµÀ

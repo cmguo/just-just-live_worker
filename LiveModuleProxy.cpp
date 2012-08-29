@@ -7,8 +7,7 @@
 #ifdef PPBOX_LIVE_WORKER_MULTI_PROCESS
 
 #include <framework/string/Format.h>
-#include <framework/logger/LoggerFormatRecord.h>
-#include <framework/logger/LoggerStreamRecord.h>
+#include <framework/logger/StreamRecord.h>
 #include <framework/logger/LoggerSection.h>
 #include <framework/system/LogicError.h>
 using namespace framework::string;
@@ -87,7 +86,7 @@ namespace ppbox
                 error_code const & ecc, 
                 size_t bytes_transferred)
             {
-                LOG_S(Logger::kLevelDebug, "[handle_parent_read_some] ec = " 
+                LOG_DEBUG("[handle_parent_read_some] ec = " 
                     << ecc.message() << " bytes_transferred = " << bytes_transferred);
                 error_code const & ec = ecc;
                 std::string url;
@@ -133,7 +132,7 @@ namespace ppbox
                 error_code const & ecc, 
                 size_t bytes_transferred)
             {
-                LOG_S(Logger::kLevelDebug, "[handle_child_read_some] ec = " 
+                LOG_DEBUG("[handle_child_read_some] ec = " 
                     << ecc.message() << " bytes_transferred = " << bytes_transferred);
                 error_code const & ec = ecc;
                 std::string url;
@@ -195,7 +194,7 @@ namespace ppbox
             LiveModule::call_back_func const & call_back)
         {
             Channel * channel = new Channel;
-            LOG_S(Logger::kLevelEvent, "[start_channel] channel " << (void *)channel);
+            LOG_INFO("[start_channel] channel " << (void *)channel);
             pid_t pid = ::fork();
             if (pid > 0) {
                 channel->after_fork(true, io_svc());
@@ -238,10 +237,10 @@ namespace ppbox
             ChannelHandle handle)
         {
             Channel * channel = (Channel *)handle;
-            LOG_S(Logger::kLevelEvent, "[stop_channel] channel " << (void *)channel);
+            LOG_INFO("[stop_channel] channel " << (void *)channel);
             channel->stop_channel(error_code(), ""); 
             if (channel->call_back.empty()) {
-                LOG_S(Logger::kLevelEvent, "[stop_channel] delete channel " << (void *)channel);
+                LOG_INFO("[stop_channel] delete channel " << (void *)channel);
                 channels_.erase(
                     std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
                 delete channel;
@@ -284,9 +283,9 @@ namespace ppbox
             error_code const & ec, 
             std::string const & url)
         {
-            LOG_S(Logger::kLevelEvent, "[handle_start_channel] channel = " << (void *)channel << ", ec = " << ec.message() << ", ur; = " << url);
+            LOG_INFO("[handle_start_channel] channel = " << (void *)channel << ", ec = " << ec.message() << ", ur; = " << url);
             if (channel->call_back.empty()) {
-                LOG_S(Logger::kLevelEvent, "[handle_start_channel] delete channel " << (void *)channel);
+                LOG_INFO("[handle_start_channel] delete channel " << (void *)channel);
                 channels_.erase(
                     std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
                 delete channel;
@@ -303,7 +302,7 @@ namespace ppbox
             error_code const & ec, 
             std::string const & msg)
         {
-            LOG_S(Logger::kLevelEvent, "[handle_stop_channel] channel = " << (void *)channel);
+            LOG_INFO("[handle_stop_channel] channel = " << (void *)channel);
             LiveModule & live_module = util::daemon::use_module<LiveModule>(daemon);
             live_module.stop_channel(channel->handle);
             daemon.stop();

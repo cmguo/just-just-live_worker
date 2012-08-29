@@ -8,8 +8,7 @@
 
 #include <framework/system/LogicError.h>
 #include <framework/string/Format.h>
-#include <framework/logger/LoggerFormatRecord.h>
-#include <framework/logger/LoggerStreamRecord.h>
+#include <framework/logger/StreamRecord.h>
 #include <framework/logger/LoggerSection.h>
 using namespace framework::string;
 using namespace framework::logger;
@@ -57,7 +56,7 @@ namespace ppbox
             }
             
 
-            LOG_S(Logger::kLevelDebug, "[LiveModule] peer_type:"<<peer_type_);
+            LOG_DEBUG("[LiveModule] peer_type:"<<peer_type_);
 
             live_ = new LiveInterface();
         }
@@ -79,9 +78,9 @@ namespace ppbox
 
         void LiveModule::shutdown()
         {
-            LOG_S(Logger::kLevelDebug, "[shutdown] beg stop kernel");
+            LOG_DEBUG("[shutdown] beg stop kernel");
             live_->cleanup();
-            LOG_S(Logger::kLevelDebug, "[shutdown] end stop kernel");
+            LOG_DEBUG("[shutdown] end stop kernel");
         }
 
         LiveModule::ChannelHandle LiveModule::start_channel( 
@@ -97,7 +96,7 @@ namespace ppbox
             }
             Channel * channel = new Channel(this, handle, call_back);
             live_->set_channel_callback(channel->handle, LiveModule::call_back_hook, (unsigned long)(channel));
-            LOG_S(Logger::kLevelEvent, "[start_channel] channel " << (void *)channel);
+            LOG_INFO("[start_channel] channel " << (void *)channel);
             return channel;
         }
 
@@ -105,7 +104,7 @@ namespace ppbox
             ChannelHandle handle)
         {
             Channel * channel = (Channel *)handle;
-            LOG_S(Logger::kLevelEvent, "[stop_channel] channel " << (void *)channel);
+            LOG_INFO("[stop_channel] channel " << (void *)channel);
             live_->stop_channel(channel->handle);
             channel->handle = NULL;
             if (channel->call_back.empty()) {
@@ -130,7 +129,7 @@ namespace ppbox
             Channel * channel, 
             error_code const & ec)
         {
-            LOG_S(Logger::kLevelEvent, "call_back channel " << (void *)channel);
+            LOG_INFO("call_back channel " << (void *)channel);
             if (channel->call_back.empty()) {
                 delete channel;
                 return;
@@ -151,7 +150,7 @@ namespace ppbox
             for (size_t i = 0; i < channels_.size(); ++i) {
                 CCoreStatus cs;
                 live_->get_channel_status(channels_[i]->handle, cs);
-                LOG_F(Logger::kLevelDebug2, "dump_channels [%d]  p: %d%%  t: %ds  d: %dk  u: %dk  c: %d   s: %d   t: %d"
+                LOG_TRACE("dump_channels [%d]  p: %d%%  t: %ds  d: %dk  u: %dk  c: %d   s: %d   t: %d"
                     % cs.m_uMediaListenPort
                     % cs.m_BufferPercent
                     % (cs.m_BufferTime / 1000)
