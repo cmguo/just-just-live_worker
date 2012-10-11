@@ -23,7 +23,7 @@
 using namespace boost::system;
 using namespace framework::logger;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("SSNManageModule", 0)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.SSNManageModule", Debug)
 
 BEGIN_NAME_SPACE
 

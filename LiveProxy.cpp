@@ -17,7 +17,7 @@ using namespace framework::logger;
 
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("LiveProxy", 0)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveProxy", Debug)
 
 namespace ppbox
 {

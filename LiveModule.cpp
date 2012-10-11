@@ -19,7 +19,7 @@ using namespace framework::system;
 #include <boost/algorithm/string/predicate.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("LiveModule", 0)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModule", Debug)
 
 namespace ppbox
 {

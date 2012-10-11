@@ -29,7 +29,7 @@ using namespace boost::system;
 #include <sys/types.h>
 #include <sys/wait.h> // for waitpid
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("LiveModuleProxy", 0)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModuleProxy", Debug)
 
 namespace ppbox
 {

@@ -23,7 +23,7 @@ using namespace framework::system;
 #include <boost/asio/io_service.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("LiveManager", 0)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveManager", Debug)
 
 static const char PPBOX_LIVE_KEY[] = "pplive";
 
