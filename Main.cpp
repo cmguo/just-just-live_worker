@@ -11,12 +11,11 @@
 #include <ppbox/common/Debuger.h>
 #include <ppbox/common/PortManager.h>
 
+#include <framework/logger/Logger.h>
 #include <framework/process/Process.h>
 #include <framework/process/SignalHandler.h>
 
 #include <boost/bind.hpp>
-
-FRAMEWORK_LOGGER_DECLARE_MODULE("LiveWorker");
 
 #ifndef _LIB
 
@@ -39,7 +38,7 @@ int main(int argc, char * argv[])
         framework::process::Signal::sig_int, 
         boost::bind(&util::daemon::Daemon::post_stop, &my_daemon), true);
 
-    framework::logger::global_logger().load_config(my_daemon.config());
+    framework::logger::load_config(my_daemon.config());
 
     ppbox::common::log_versions();
 

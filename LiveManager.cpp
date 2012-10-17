@@ -13,17 +13,17 @@ using namespace util::protocol;
 #include <framework/string/Format.h>
 #include <framework/string/Slice.h>
 #include <framework/string/Parse.h>
+#include <framework/logger/Logger.h>
 #include <framework/logger/StreamRecord.h>
-#include <framework/logger/LoggerSection.h>
+#include <framework/logger/Section.h>
 using namespace framework::string;
-using namespace framework::logger;
 using namespace framework::system;
 
 #include <boost/bind.hpp>
 #include <boost/asio/io_service.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveManager", Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveManager", framework::logger::Debug)
 
 static const char PPBOX_LIVE_KEY[] = "pplive";
 

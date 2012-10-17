@@ -8,10 +8,10 @@
 
 #include <framework/system/LogicError.h>
 #include <framework/string/Format.h>
-#include <framework/logger/StreamRecord.h>
-#include <framework/logger/LoggerSection.h>
+#include <framework/logger/Logger.h>
+#include <framework/logger/FormatRecord.h>
+#include <framework/logger/Section.h>
 using namespace framework::string;
-using namespace framework::logger;
 using namespace framework::system;
 
 #include <boost/bind.hpp>
@@ -19,7 +19,7 @@ using namespace framework::system;
 #include <boost/algorithm/string/predicate.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModule", Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModule", framework::logger::Debug)
 
 namespace ppbox
 {
