@@ -1,8 +1,9 @@
 // SSNManageModule.cpp
 
+#include "ppbox/live_worker/Common.h"
+
 #ifdef PPBOX_LIVE_WORKER_WITH_SSN_MANAGER
 
-#include "ppbox/live_worker/Common.h"
 #include "ppbox/live_worker/Define.h"
 #include "ppbox/live_worker/SSNManageModule.h"
 
