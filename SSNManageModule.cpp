@@ -7,10 +7,6 @@
 #include "ppbox/live_worker/Define.h"
 #include "ppbox/live_worker/SSNManageModule.h"
 
-
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
-
 #include <util/protocol/http/HttpClient.h>
 
 #include <util/serialization/stl/vector.h>
@@ -19,12 +15,12 @@
 
 #include <framework/string/Parse.h>
 
-
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
 
 using namespace boost::system;
-using namespace framework::logger;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.SSNManageModule", Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.SSNManageModule", framework::logger::Debug)
 
 BEGIN_NAME_SPACE
 

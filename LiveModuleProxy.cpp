@@ -11,7 +11,6 @@
 #include <framework/logger/LoggerSection.h>
 #include <framework/system/LogicError.h>
 using namespace framework::string;
-using namespace framework::logger;
 using namespace framework::system;
 
 #include <util/serialization/ErrorCode.h>
@@ -29,7 +28,7 @@ using namespace boost::system;
 #include <sys/types.h>
 #include <sys/wait.h> // for waitpid
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModuleProxy", Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModuleProxy", framework::logger::Debug)
 
 namespace ppbox
 {

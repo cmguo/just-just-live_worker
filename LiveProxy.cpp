@@ -13,11 +13,9 @@
 #include <framework/string/Url.h>
 #include <framework/string/Parse.h>
 
-using namespace framework::logger;
-
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveProxy", Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveProxy", framework::logger::Debug)
 
 namespace ppbox
 {
