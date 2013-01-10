@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
     util::daemon::use_module<ppbox::common::Debuger>(my_daemon);
     util::daemon::use_module<ppbox::common::PortManager>(my_daemon);
 
-    my_daemon.start(framework::this_process::notify_wait);
+    my_daemon.start(framework::process::notify_wait);
 
     return 0;
 }
