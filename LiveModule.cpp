@@ -73,6 +73,9 @@ namespace ppbox
 
             if (!ec && !live_->startup(peer_type_))
                 ec = logic_error::failed_some;
+			if (ec == boost::system::errc::no_such_file_or_directory) {
+				ec.clear();
+			}
             return ec;
         }
 
