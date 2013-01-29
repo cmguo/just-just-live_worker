@@ -4,11 +4,12 @@
 #include "ppbox/live_worker/LiveProxy.h"
 #include "ppbox/live_worker/LiveManager.h"
 
-#include <util/protocol/http/HttpProxyManager.h>
 #include <util/protocol/http/HttpProxy.h>
 #include <util/protocol/http/HttpRequest.h>
 #include <util/protocol/http/HttpResponse.h>
 
+#include <framework/network/TcpSocket.hpp>
+#include <framework/logger/Logger.h>
 #include <framework/logger/StreamRecord.h>
 #include <framework/string/Url.h>
 #include <framework/string/Parse.h>
@@ -25,13 +26,13 @@ namespace ppbox
         class Proxy;
 
         class ProxyManager
-            : public util::protocol::HttpProxyManager<Proxy, ProxyManager>
+            : public framework::network::ServerManager<Proxy, ProxyManager>
         {
         public:
             ProxyManager(
                 boost::asio::io_service & io_svc, 
                 LiveManager & module)
-                : util::protocol::HttpProxyManager<Proxy, ProxyManager>(io_svc)
+                : framework::network::ServerManager<Proxy, ProxyManager>(io_svc)
                 , module_(module)
             {
             }
@@ -134,7 +135,7 @@ namespace ppbox
 
         void ProxyManager::stop()
         {
-            util::protocol::HttpProxyManager<Proxy, ProxyManager>::stop();
+            framework::network::ServerManager<Proxy, ProxyManager>::stop();
             for (size_t i = 0; i < proxys_.size(); ++i) {
                 error_code ec;
                 proxys_[i]->cancel(ec);
