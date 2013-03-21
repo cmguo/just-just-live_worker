@@ -23,13 +23,11 @@ int main(int argc, char * argv[])
 {
     util::daemon::Daemon my_daemon("live_worker.conf");
     char const * default_argv[] = {
-        "++Logger.stream_count=1", 
-        "++Logger.ResolverService=1", 
-        "++LogStream0.file=$LOG/live_worker.log", 
-        "++LogStream0.append=true", 
-        "++LogStream0.roll=true", 
-        "++LogStream0.level=5", 
-        "++LogStream0.size=102400", 
+        "++framework.logger.Stream.0.file=$LOG/live_worker.log", 
+        "++framework.logger.Stream.0.append=true", 
+        "++framework.logger.Stream.0.roll=true", 
+        "++framework.logger.Stream.0.level=5", 
+        "++framework.logger.Stream.0.size=102400", 
     };
     my_daemon.parse_cmdline(sizeof(default_argv) / sizeof(default_argv[0]), default_argv);
     my_daemon.parse_cmdline(argc, (char const **)argv);
