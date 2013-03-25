@@ -98,6 +98,7 @@ namespace ppbox
                 return NULL; // Failed.
             }
             Channel * channel = new Channel(this, handle, call_back);
+            channels_.push_back(channel);
             live_->set_channel_callback(channel->handle, LiveModule::call_back_hook, (unsigned long)(channel));
             LOG_INFO("[start_channel] channel " << (void *)channel);
             return channel;
@@ -111,6 +112,8 @@ namespace ppbox
             live_->stop_channel(channel->handle);
             channel->handle = NULL;
             if (channel->call_back.empty()) {
+                channels_.erase(
+                    std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
                 delete channel;
             } else {
                 call_back_func call_back;
@@ -134,6 +137,8 @@ namespace ppbox
         {
             LOG_INFO("call_back channel " << (void *)channel);
             if (channel->call_back.empty()) {
+                channels_.erase(
+                    std::remove(channels_.begin(), channels_.end(), channel), channels_.end());
                 delete channel;
                 return;
             }
