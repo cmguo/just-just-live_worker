@@ -25,7 +25,7 @@ using namespace boost::system;
 
 FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveManager", framework::logger::Debug)
 
-static const char PPBOX_LIVE_KEY[] = "pplive";
+static const char PPBOX_LIVE_KEY[] = "trinity";
 
 namespace ppbox
 {

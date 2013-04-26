@@ -146,7 +146,7 @@ namespace ppbox
             if (!ec) {
                 CCoreStatus cs;
                 live_->get_channel_status(channel->handle, cs);
-                url = "http://127.0.0.1:" + format(cs.m_uMediaListenPort) + "/1.asf";
+                url = "http://127.0.0.1:" + format(cs.m_uMediaListenPort) + "/secret.tmp";
             }
             call_back_func call_back;
             call_back.swap(channel->call_back);
