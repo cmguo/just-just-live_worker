@@ -88,7 +88,7 @@ namespace ppbox
             {
                 request_head.get_content(std::cout);
                 std::string url = request_head.path;
-                channel_ = mgr_.module().start_channel(url, 
+                channel_ = mgr_.module().start_channel(framework::string::Url::decode(url), 
                     boost::bind(&Proxy::on_channel_ready, this, resp, _1, _2));
             }
 

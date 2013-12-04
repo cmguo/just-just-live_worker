@@ -211,7 +211,7 @@ namespace ppbox
                 channel->tcp_port = tcp_port;
                 channel->udp_port = udp_port;
                 channel->handle = live_module_.start_channel(
-                    (std::string("synacast:/") + url).c_str(), tcp_port, udp_port, 
+                    url, tcp_port, udp_port, 
                     boost::bind(&LiveManager::handle_start_channel, this, channel, _1, _2));
                 if (channel->handle == NULL) {
                     io_svc().post(
