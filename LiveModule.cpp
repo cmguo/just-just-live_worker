@@ -164,7 +164,7 @@ namespace ppbox
                     % (cs.m_BufferTime / 1000)
                     % (cs.m_DownloadSpeed / 1024)
                     % (cs.m_UploadSpeed / 1024)
-                    % cs.m_ConnectionCountt
+                    % cs.m_ConnectionCount
                     % cs.m_PendingPeerCount
                     % cs.m_TotalPeerCount);
             }
