@@ -58,6 +58,7 @@ PROJECT_LINK_FLAGS		:=
 
 PROJECT_DEPENDS			:= \
 				/ppbox/common \
+				/p2p/live/live \
 				$(PROJECT_DEPENDS) \
 
 ## 该项目特定的引用库
