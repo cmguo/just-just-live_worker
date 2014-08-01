@@ -1,6 +1,6 @@
 // LiveInterface.h
 
-#include <live/live/Interface.h>
+#include <live/Interface.h>
 
 #include <framework/library/Library.h>
 

@@ -4,7 +4,7 @@
 #include "ppbox/live_worker/LiveModule.h"
 #include "ppbox/live_worker/LiveInterface.h"
 
-#include <live/live/Name.h>
+#include <live/Name.h>
 
 #include <framework/system/LogicError.h>
 #include <framework/string/Format.h>

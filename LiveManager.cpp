@@ -4,7 +4,7 @@
 #include "ppbox/live_worker/LiveManager.h"
 #include "ppbox/live_worker/LiveModuleProxy.h"
 
-#include <live/live/Name.h>
+#include <live/Name.h>
 
 #include <util/protocol/pptv/Base64.h>
 using namespace util::protocol;
