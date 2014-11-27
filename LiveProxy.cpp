@@ -1,8 +1,8 @@
 // LiveProxy.cpp
 
-#include "ppbox/live_worker/Common.h"
-#include "ppbox/live_worker/LiveProxy.h"
-#include "ppbox/live_worker/LiveManager.h"
+#include "just/live_worker/Common.h"
+#include "just/live_worker/LiveProxy.h"
+#include "just/live_worker/LiveManager.h"
 
 #include <util/protocol/http/HttpProxy.h>
 #include <util/protocol/http/HttpRequest.h>
@@ -16,9 +16,9 @@
 
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveProxy", framework::logger::Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.LiveProxy", framework::logger::Debug)
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -144,9 +144,9 @@ namespace ppbox
 
         LiveProxy::LiveProxy(
             util::daemon::Daemon & daemon)
-            : ppbox::common::CommonModuleBase<LiveProxy>(daemon, "LiveProxy")
+            : just::common::CommonModuleBase<LiveProxy>(daemon, "LiveProxy")
             , module_(util::daemon::use_module<LiveManager>(daemon))
-            , portMgr_(util::daemon::use_module<ppbox::common::PortManager>(daemon))
+            , portMgr_(util::daemon::use_module<just::common::PortManager>(daemon))
             , addr_("0.0.0.0:9001+")
         {
             daemon.config().register_module("LiveProxy")
@@ -165,7 +165,7 @@ namespace ppbox
             error_code ec;
             mgr_->start(addr_,ec);
             if(!ec)
-                portMgr_.set_port(ppbox::common::live,addr_.port());
+                portMgr_.set_port(just::common::live,addr_.port());
             return ec;
         }
 
@@ -175,4 +175,4 @@ namespace ppbox
         }
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just

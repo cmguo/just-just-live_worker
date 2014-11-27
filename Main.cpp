@@ -1,15 +1,15 @@
 // Main.cpp
 
-#include "ppbox/live_worker/Common.h"
-#include "ppbox/live_worker/LiveProxy.h"
-#ifdef PPBOX_LIVE_WORKER_WITH_SSN_MANAGER
-#  include "ppbox/live_worker/SSNManageModule.h"
+#include "just/live_worker/Common.h"
+#include "just/live_worker/LiveProxy.h"
+#ifdef JUST_LIVE_WORKER_WITH_SSN_MANAGER
+#  include "just/live_worker/SSNManageModule.h"
 #endif
-#include "ppbox/live_worker/Version.h"
+#include "just/live_worker/Version.h"
 
-//#include <ppbox/common/ConfigMgr.h>
-#include <ppbox/common/Debuger.h>
-#include <ppbox/common/PortManager.h>
+//#include <just/common/ConfigMgr.h>
+#include <just/common/Debuger.h>
+#include <just/common/PortManager.h>
 
 #include <framework/logger/Logger.h>
 #include <framework/process/Process.h>
@@ -38,25 +38,25 @@ int main(int argc, char * argv[])
 
     framework::logger::load_config(my_daemon.config());
 
-    ppbox::common::log_versions();
+    just::common::log_versions();
 
-    ppbox::common::CommonModule & common = 
-        util::daemon::use_module<ppbox::common::CommonModule>(my_daemon, "LiveWorker");
-    common.set_version(ppbox::live_worker::version());
+    just::common::CommonModule & common = 
+        util::daemon::use_module<just::common::CommonModule>(my_daemon, "LiveWorker");
+    common.set_version(just::live_worker::version());
 
-    util::daemon::use_module<ppbox::live_worker::LiveProxy>(my_daemon);
+    util::daemon::use_module<just::live_worker::LiveProxy>(my_daemon);
 
     // SNManager module
-#ifdef PPBOX_LIVE_WORKER_WITH_SSN_MANAGER
+#ifdef JUST_LIVE_WORKER_WITH_SSN_MANAGER
     if (atoi(worker_type.c_str()) != 0)
     {
-        util::daemon::use_module<ppbox::live_worker::SSNManageModule>(my_daemon);
+        util::daemon::use_module<just::live_worker::SSNManageModule>(my_daemon);
     }
 #endif
 
-    //util::daemon::use_module<ppbox::common::ConfigMgr>(my_daemon);
-    util::daemon::use_module<ppbox::common::Debuger>(my_daemon);
-    util::daemon::use_module<ppbox::common::PortManager>(my_daemon);
+    //util::daemon::use_module<just::common::ConfigMgr>(my_daemon);
+    util::daemon::use_module<just::common::Debuger>(my_daemon);
+    util::daemon::use_module<just::common::PortManager>(my_daemon);
 
     my_daemon.start(framework::process::notify_wait);
 

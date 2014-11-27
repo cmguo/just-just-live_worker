@@ -1,7 +1,7 @@
-#ifndef _PPBOX_LIVE_WORKER_SSNMANAGEMODULE_H_
-#define _PPBOX_LIVE_WORKER_SSNMANAGEMODULE_H_
+#ifndef _JUST_LIVE_WORKER_SSNMANAGEMODULE_H_
+#define _JUST_LIVE_WORKER_SSNMANAGEMODULE_H_
 
-#include "ppbox/live_worker/LiveManager.h"
+#include "just/live_worker/LiveManager.h"
 
 #include <boost/asio/deadline_timer.hpp>
 
@@ -25,7 +25,7 @@ namespace boost
     class thread_group;
 }
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -39,7 +39,7 @@ namespace ppbox
            // struct LiveManager::ChannelHandle;
 
             class SSNManageModule 
-                : public ppbox::common::CommonModuleBase<SSNManageModule>
+                : public just::common::CommonModuleBase<SSNManageModule>
             {
             public:
                 

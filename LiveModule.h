@@ -1,12 +1,12 @@
 // LiveModule.h
 
-#ifndef _PPBOX_LIVE_WORKER_LIVE_MODULE_H_
-#define _PPBOX_LIVE_WORKER_LIVE_MODULE_H_
+#ifndef _JUST_LIVE_WORKER_LIVE_MODULE_H_
+#define _JUST_LIVE_WORKER_LIVE_MODULE_H_
 
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/function.hpp>
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -84,6 +84,6 @@ namespace ppbox
         };
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_LIVE_WORKER_LIVE_MODULE_H_
+#endif // _JUST_LIVE_WORKER_LIVE_MODULE_H_

@@ -1,10 +1,10 @@
 // LiveModuleProxy.cpp
 
-#include "ppbox/live_worker/Common.h"
-#include "ppbox/live_worker/LiveModuleProxy.h"
-#include "ppbox/live_worker/LiveModule.h"
+#include "just/live_worker/Common.h"
+#include "just/live_worker/LiveModuleProxy.h"
+#include "just/live_worker/LiveModule.h"
 
-#ifdef PPBOX_LIVE_WORKER_MULTI_PROCESS
+#ifdef JUST_LIVE_WORKER_MULTI_PROCESS
 
 #include <framework/string/Format.h>
 #include <framework/logger/StreamRecord.h>
@@ -28,9 +28,9 @@ using namespace boost::system;
 #include <sys/types.h>
 #include <sys/wait.h> // for waitpid
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModuleProxy", framework::logger::Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.LiveModuleProxy", framework::logger::Debug)
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -308,6 +308,6 @@ namespace ppbox
         }
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
 
 #endif

@@ -1,8 +1,8 @@
 // LiveModule.cpp
 
-#include "ppbox/live_worker/Common.h"
-#include "ppbox/live_worker/LiveModule.h"
-#include "ppbox/live_worker/LiveInterface.h"
+#include "just/live_worker/Common.h"
+#include "just/live_worker/LiveModule.h"
+#include "just/live_worker/LiveInterface.h"
 
 #include <live/Name.h>
 
@@ -19,9 +19,9 @@ using namespace framework::system;
 #include <boost/algorithm/string/predicate.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveModule", framework::logger::Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.LiveModule", framework::logger::Debug)
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -183,4 +183,4 @@ namespace ppbox
         }
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just

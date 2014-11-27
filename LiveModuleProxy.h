@@ -1,24 +1,24 @@
 // LiveModuleProxy.h
 
-#ifndef _PPBOX_LIVE_WORKER_LIVE_MODULE_PROXY_H_
-#define _PPBOX_LIVE_WORKER_LIVE_MODULE_PROXY_H_
+#ifndef _JUST_LIVE_WORKER_LIVE_MODULE_PROXY_H_
+#define _JUST_LIVE_WORKER_LIVE_MODULE_PROXY_H_
 
-#ifdef PPBOX_LIVE_WORKER_MULTI_PROCESS
+#ifdef JUST_LIVE_WORKER_MULTI_PROCESS
 #  ifdef BOOST_WINDOWS_API
-#    undef PPBOX_LIVE_WORKER_MULTI_PROCESS
+#    undef JUST_LIVE_WORKER_MULTI_PROCESS
 #  endif
 #endif
 
-#ifndef PPBOX_LIVE_WORKER_MULTI_PROCESS
-#  include "ppbox/live_worker/LiveModule.h"
+#ifndef JUST_LIVE_WORKER_MULTI_PROCESS
+#  include "just/live_worker/LiveModule.h"
 #endif
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
 
-#ifndef PPBOX_LIVE_WORKER_MULTI_PROCESS
+#ifndef JUST_LIVE_WORKER_MULTI_PROCESS
 
         typedef LiveModule LiveModuleProxy;
 
@@ -80,6 +80,6 @@ namespace ppbox
 #endif
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_LIVE_WORKER_LIVE_MODULE_PROXY_H_
+#endif // _JUST_LIVE_WORKER_LIVE_MODULE_PROXY_H_

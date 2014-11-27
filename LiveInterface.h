@@ -4,7 +4,7 @@
 
 #include <framework/library/Library.h>
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -30,7 +30,7 @@ namespace ppbox
             bool load(
                 framework::library::Library const & dll)
             {
-#ifdef PPBOX_STATIC_BIND_LIVE_LIB
+#ifdef JUST_STATIC_BIND_LIVE_LIB
                 this->startup = LiveStartup;
                 this->cleanup = LiveCleanup;
                 this->start_channel = LiveStartChannel;
@@ -92,7 +92,7 @@ namespace ppbox
             boost::system::error_code load(
                 std::string const & lib_path)
             {
-#ifdef PPBOX_STATIC_BIND_LIVE_LIB
+#ifdef JUST_STATIC_BIND_LIVE_LIB
                 boost::system::error_code ec;
 #else
                 boost::system::error_code ec = 
@@ -207,4 +207,4 @@ namespace ppbox
         };
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just

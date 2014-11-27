@@ -1,18 +1,18 @@
 // LiveManager.h
 
-#ifndef _PPBOX_LIVE_WORKER_LIVE_MANAGER_H_
-#define _PPBOX_LIVE_WORKER_LIVE_MANAGER_H_
+#ifndef _JUST_LIVE_WORKER_LIVE_MANAGER_H_
+#define _JUST_LIVE_WORKER_LIVE_MANAGER_H_
 
 #include <framework/timer/TimeTraits.h>
 
 #include <boost/function.hpp>
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
 
-#ifndef PPBOX_LIVE_WORKER_MULTI_PROCESS
+#ifndef JUST_LIVE_WORKER_MULTI_PROCESS
         class LiveModule;
         typedef LiveModule LiveModuleProxy;
 #else
@@ -101,6 +101,6 @@ namespace ppbox
         };
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_LIVE_WORKER_LIVE_MANAGER_H_
+#endif // _JUST_LIVE_WORKER_LIVE_MANAGER_H_

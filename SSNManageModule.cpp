@@ -1,11 +1,11 @@
 // SSNManageModule.cpp
 
-#include "ppbox/live_worker/Common.h"
+#include "just/live_worker/Common.h"
 
-#ifdef PPBOX_LIVE_WORKER_WITH_SSN_MANAGER
+#ifdef JUST_LIVE_WORKER_WITH_SSN_MANAGER
 
-#include "ppbox/live_worker/Define.h"
-#include "ppbox/live_worker/SSNManageModule.h"
+#include "just/live_worker/Define.h"
+#include "just/live_worker/SSNManageModule.h"
 
 #include <util/protocol/http/HttpClient.h>
 
@@ -20,12 +20,12 @@
 
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.SSNManageModule", framework::logger::Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.SSNManageModule", framework::logger::Debug)
 
 BEGIN_NAME_SPACE
 
 SSNManageModule::SSNManageModule(util::daemon::Daemon & daemon)
-    : ppbox::common::CommonModuleBase<SSNManageModule>(daemon, "SSNManageModule"), 
+    : just::common::CommonModuleBase<SSNManageModule>(daemon, "SSNManageModule"), 
     timer_(io_svc()),
     _mgr(util::daemon::use_module<LiveManager>(daemon))
 {

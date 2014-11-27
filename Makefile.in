@@ -16,7 +16,7 @@ PROJECT_VERSION			:=
 
 ## 项目版本定义文件
 
-PROJECT_VERSION_HEADER		:= ppbox/live_worker/Define.h
+PROJECT_VERSION_HEADER		:= just/live_worker/Define.h
 
 ## 指定源文件目录（该项目源文件的总目录，相对于源文件根目录ROOT_SOURCE_DIRECTORY，默认为LOCAL_NAME）
 
@@ -57,7 +57,7 @@ PROJECT_LINK_FLAGS		:=
 ## 该项目依赖的其他项目
 
 PROJECT_DEPENDS			:= \
-				/ppbox/common \
+				/just/common \
 				/p2p/live/live \
 				$(PROJECT_DEPENDS) \
 

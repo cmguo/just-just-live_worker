@@ -1,15 +1,15 @@
 // LiveProxy.h
 
-#ifndef _PPBOX_LIVE_WORKER_LIVE_PROXY_H_
-#define _PPBOX_LIVE_WORKER_LIVE_PROXY_H_
+#ifndef _JUST_LIVE_WORKER_LIVE_PROXY_H_
+#define _JUST_LIVE_WORKER_LIVE_PROXY_H_
 
-#include <ppbox/common/PortManager.h>
+#include <just/common/PortManager.h>
 
 #include <framework/network/NetName.h>
 
 #include <boost/function.hpp>
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -18,7 +18,7 @@ namespace ppbox
         class ProxyManager;
 
         class LiveProxy
-            : public ppbox::common::CommonModuleBase<LiveProxy>
+            : public just::common::CommonModuleBase<LiveProxy>
         {
         public:
             LiveProxy(
@@ -33,12 +33,12 @@ namespace ppbox
 
         private:
             LiveManager & module_;
-            ppbox::common::PortManager& portMgr_;
+            just::common::PortManager& portMgr_;
             ProxyManager * mgr_;
             framework::network::NetName addr_;
         };
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_LIVE_WORKER_LIVE_PROXY_H_
+#endif // _JUST_LIVE_WORKER_LIVE_PROXY_H_

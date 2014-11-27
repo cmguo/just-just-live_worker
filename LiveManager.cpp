@@ -1,8 +1,8 @@
 // LiveManager.cpp
 
-#include "ppbox/live_worker/Common.h"
-#include "ppbox/live_worker/LiveManager.h"
-#include "ppbox/live_worker/LiveModuleProxy.h"
+#include "just/live_worker/Common.h"
+#include "just/live_worker/LiveManager.h"
+#include "just/live_worker/LiveModuleProxy.h"
 
 #include <live/Name.h>
 
@@ -23,11 +23,11 @@ using namespace framework::system;
 #include <boost/asio/io_service.hpp>
 using namespace boost::system;
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.live_worker.LiveManager", framework::logger::Debug)
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.LiveManager", framework::logger::Debug)
 
-static const char PPBOX_LIVE_KEY[] = "trinity";
+static const char JUST_LIVE_KEY[] = "trinity";
 
-namespace ppbox
+namespace just
 {
     namespace live_worker
     {
@@ -154,7 +154,7 @@ namespace ppbox
             boost::uint16_t udp_port, 
             call_back_func const & call_back)
         {
-            std::string url_decode = pptv::base64_decode(url.substr(1), PPBOX_LIVE_KEY);
+            std::string url_decode = pptv::base64_decode(url.substr(1), JUST_LIVE_KEY);
             std::string rid;
             if (!url_decode.empty()) {
                 map_find(url_decode, "channel", rid, "&");
@@ -415,4 +415,4 @@ namespace ppbox
         }
 
     } // namespace live_worker
-} // namespace ppbox
+} // namespace just
