@@ -160,18 +160,20 @@ namespace just
             delete mgr_;
         }
 
-        error_code LiveProxy::startup()
+        bool LiveProxy::startup(
+            error_code & ec)
         {
-            error_code ec;
             mgr_->start(addr_,ec);
             if(!ec)
                 portMgr_.set_port(just::common::live,addr_.port());
-            return ec;
+            return !ec;
         }
 
-        void LiveProxy::shutdown()
+        bool LiveProxy::shutdown(
+            error_code & ec)
         {
             mgr_->stop();
+            return !ec;
         }
 
     } // namespace live_worker

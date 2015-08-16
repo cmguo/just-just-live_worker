@@ -66,9 +66,10 @@ namespace just
             delete live_;
         }
 
-        error_code LiveModule::startup()
+        bool LiveModule::startup(
+            error_code & ec)
         {
-            error_code ec = 
+            ec = 
                 live_->load(live::name_string());
 
             if (!ec && !live_->startup(peer_type_))
@@ -76,14 +77,16 @@ namespace just
 			if (ec == boost::system::errc::no_such_file_or_directory) {
 				ec.clear();
 			}
-            return ec;
+            return !ec;
         }
 
-        void LiveModule::shutdown()
+        bool LiveModule::shutdown(
+            error_code & ec)
         {
             LOG_DEBUG("[shutdown] beg stop kernel");
             live_->cleanup();
             LOG_DEBUG("[shutdown] end stop kernel");
+            return true;
         }
 
         LiveModule::ChannelHandle LiveModule::start_channel( 

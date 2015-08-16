@@ -18,6 +18,7 @@ using namespace util::protocol;
 #include <framework/logger/Section.h>
 using namespace framework::string;
 using namespace framework::system;
+using namespace framework::timer;
 
 #include <boost/bind.hpp>
 #include <boost/asio/io_service.hpp>
@@ -113,23 +114,24 @@ namespace just
         {
         }
 
-        error_code LiveManager::startup()
+        bool LiveManager::startup(
+            error_code & ec)
         {
-            error_code ec;
             timer_.expires_from_now(Duration::seconds(1), ec);
             timer_.async_wait(boost::bind(&LiveManager::handle_timer, this, _1));
-            return ec;
+            return !ec;
         }
 
-        void LiveManager::shutdown()
+        bool LiveManager::shutdown(
+            error_code & ec)
         {
             for (size_t i = 0; i < channels_.size(); ++i) {
                 stop_channel(channels_[i]);
             }
             channels_.erase(
                 std::remove(channels_.begin(), channels_.end(), (Channel *)0), channels_.end());
-            error_code ec;
             timer_.cancel(ec);
+            return !ec;
         }
 
         void LiveManager::set_max_parallel(

@@ -32,9 +32,11 @@ namespace just
             ~LiveModule();
 
         public:
-            virtual boost::system::error_code startup();
+            virtual bool startup(
+                boost::system::error_code & ec);
 
-            virtual void shutdown();
+            virtual bool shutdown(
+                boost::system::error_code & ec);
 
         public:
             ChannelHandle start_channel(
