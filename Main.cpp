@@ -58,7 +58,8 @@ int main(int argc, char * argv[])
     util::daemon::use_module<just::common::Debuger>(my_daemon);
     util::daemon::use_module<just::common::PortManager>(my_daemon);
 
-    my_daemon.start(framework::process::notify_wait);
+    boost::system::error_code ec;
+    my_daemon.start(framework::process::notify_wait, ec);
 
     return 0;
 }

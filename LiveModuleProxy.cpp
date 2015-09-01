@@ -8,7 +8,7 @@
 
 #include <framework/string/Format.h>
 #include <framework/logger/StreamRecord.h>
-#include <framework/logger/LoggerSection.h>
+#include <framework/logger/Section.h>
 #include <framework/system/LogicError.h>
 using namespace framework::string;
 using namespace framework::system;
@@ -29,6 +29,16 @@ using namespace boost::system;
 #include <sys/wait.h> // for waitpid
 
 FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.live_worker.LiveModuleProxy", framework::logger::Debug)
+
+namespace boost { namespace asio { namespace detail { namespace socket_ops {
+
+static int close(socket_type s, boost::system::error_code& ec)
+{
+    state_type state = user_set_linger;
+    return close(s, state, true, ec);
+}
+
+}}}}
 
 namespace just
 {
@@ -52,6 +62,7 @@ namespace just
                     delete local_socket_;
                 } else {
                     error_code ec;
+
                     boost::asio::detail::socket_ops::close(native_sockets_[0], ec);
                     boost::asio::detail::socket_ops::close(native_sockets_[1], ec);
                 }
@@ -177,13 +188,16 @@ namespace just
         {
         }
 
-        error_code LiveModuleProxy::startup()
+        bool LiveModuleProxy::startup(
+            error_code & ec)
         {
-            return error_code();
+            return true;
         }
 
-        void LiveModuleProxy::shutdown()
+        bool LiveModuleProxy::shutdown(
+            error_code & ec)
         {
+            return true;
         }
 
         LiveModuleProxy::ChannelHandle LiveModuleProxy::start_channel( 
@@ -208,7 +222,8 @@ namespace just
                 daemon.config().profile() = get_daemon().config().profile();
                 LiveModule & live_module = util::daemon::use_module<LiveModule>(daemon);
                 channel->after_fork(false, daemon.io_svc());
-                error_code ec = daemon.start();
+                error_code ec;
+                daemon.start(ec);
                 if (ec) {
                     channel->get_call_back()(logic_error::failed_some, std::string());
                 } else {
@@ -216,12 +231,12 @@ namespace just
                         url, tcp_port, udp_port, channel->get_call_back());
                     if (channel->handle == NULL) {
                         channel->get_call_back()(logic_error::failed_some, std::string());
-                        daemon.stop();
+                        daemon.stop(ec);
                     } else {
                         channel->wait_stop_channel(
                             boost::bind(&LiveModuleProxy::handle_stop_channel, this, 
                             boost::ref(daemon), channel, _1, _2));
-                        daemon.run();
+                        daemon.run(ec);
                     }
                 }
                 ::_exit(0);
@@ -304,7 +319,8 @@ namespace just
             LOG_INFO("[handle_stop_channel] channel = " << (void *)channel);
             LiveModule & live_module = util::daemon::use_module<LiveModule>(daemon);
             live_module.stop_channel(channel->handle);
-            daemon.stop();
+            error_code ec1;
+            daemon.stop(ec1);
         }
 
     } // namespace live_worker
